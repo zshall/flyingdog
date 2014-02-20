@@ -71,7 +71,7 @@ Player = game.Class.extend({
             this.body.velocity.y = -200;
             this.smokeEmitter.rate = 0;
         }
-        this.body.velocity.x = 0;;
+        this.body.velocity.x = 0;
         return true;
     },
 
