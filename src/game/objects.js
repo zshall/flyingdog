@@ -89,7 +89,7 @@ Player = game.Class.extend({
     jump: function() {
         if(this.body.position.y < 0) return;
         this.body.velocity.y = this.jumpPower;
-        game.sound.playSound('jump');
+        game.audio.playSound('jump');
     }
 });
 
@@ -171,24 +171,43 @@ Cloud = game.Sprite.extend({
 
 Logo = game.Class.extend({
     init: function() {
+        var tween, sprite;
+
         this.container = new game.Container();
         this.container.position.y = -150;
-        game.scene.addTween(this.container.position, {y: 200}, 1.5, {delay: 0.1, easing: game.Tween.Easing.Back.Out}).start();
+        
+        tween = new game.Tween(this.container.position)
+            .to({y: 200}, 1500)
+            .delay(100)
+            .easing(game.Tween.Easing.Back.Out)
+            .start();
 
-        var sprite;
         sprite = new game.Sprite(game.system.width / 2, 0, 'media/logo1.png', {anchor: {x:0.5, y:0.5}});
         this.container.addChild(sprite);
-        game.scene.addTween(sprite.position, {y: -20}, 1, {easing: game.Tween.Easing.Quadratic.InOut, loop: game.Tween.Loop.Reverse}).start();
+        tween = new game.Tween(sprite.position)
+            .to({y: -20}, 1000)
+            .easing(game.Tween.Easing.Quadratic.InOut)
+            .repeat()
+            .yoyo()
+            .start();
 
         sprite = new game.Sprite(game.system.width / 2, 80, 'media/logo2.png', {anchor: {x:0.5, y:0.5}});
         this.container.addChild(sprite);
-        game.scene.addTween(sprite.position, {y: 100}, 1, {easing: game.Tween.Easing.Quadratic.InOut, loop: game.Tween.Loop.Reverse}).start();
+        tween = new game.Tween(sprite.position)
+            .to({y: 100}, 1000)
+            .easing(game.Tween.Easing.Quadratic.InOut)
+            .repeat()
+            .yoyo()
+            .start();
 
         game.scene.stage.addChild(this.container);
     },
 
     remove: function() {
-        game.scene.addTween(this.container, {alpha: 0}, 1, {onComplete: this.container.remove.bind(this)}).start();
+        var tween = new game.Tween(this.container)
+            .to({alpha: 0}, 1000)
+            .onComplete(this.container.remove.bind(this))
+            .start();
     }
 });
 

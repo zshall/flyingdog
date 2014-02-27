@@ -2,7 +2,7 @@ game.module(
     'game.assets'
 )
 .require(
-    'engine.sound'
+    'engine.audio'
 )
 .body(function() {
 
@@ -32,12 +32,10 @@ game.addAsset('media/madewithpanda.png');
 game.addAsset('media/font.fnt');
 
 // Sounds
-game.addSound('media/sound/explosion.m4a', 'explosion');
-game.addSound('media/sound/jump.m4a', 'jump');
-game.addSound('media/sound/score.m4a', 'score');
-game.addSound('media/sound/highscore.m4a', 'highscore');
-
-// Music
-game.addMusic('media/sound/music.m4a', 'music');
+game.addAudio('media/sound/explosion.m4a', 'explosion');
+game.addAudio('media/sound/jump.m4a', 'jump');
+game.addAudio('media/sound/score.m4a', 'score');
+game.addAudio('media/sound/highscore.m4a', 'highscore');
+game.addAudio('media/sound/music.m4a', 'music');
 
 });

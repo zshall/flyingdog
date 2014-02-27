@@ -8,7 +8,7 @@ game.module(
 
 SceneGame = game.Scene.extend({
     backgroundColor: 0xb2dcef,
-    gapTime: 1.5,
+    gapTime: 1500,
     gravity: 2000,
     score: 0,
     cloudSpeedFactor: 1,
@@ -51,8 +51,8 @@ SceneGame = game.Scene.extend({
         });
         this.stage.addChild(text);
 
-        game.sound.musicVolume = 0.2;
-        game.sound.playMusic('music');
+        game.audio.musicVolume = 0.2;
+        game.audio.playMusic('music');
     },
 
     spawnGap: function() {
@@ -62,7 +62,7 @@ SceneGame = game.Scene.extend({
     addScore: function() {
         this.score++;
         this.scoreText.setText(this.score.toString());
-        game.sound.playSound('score');
+        game.audio.playSound('score');
     },
 
     addCloud: function(x, y, path, speed) {
@@ -118,7 +118,7 @@ SceneGame = game.Scene.extend({
         });
 
         if(this.score > 0) {
-            var time = Math.min(0.1, 1 / this.score);
+            var time = Math.min(100, (1 / this.score) * 1000);
             var scoreCounter = 0;
             this.addTimer(time, function() {
                 scoreCounter++;
@@ -126,7 +126,7 @@ SceneGame = game.Scene.extend({
                 if(scoreCounter >= game.scene.score) {
                     this.repeat = false;
                     if(game.scene.score > highScore) {
-                        game.sound.playSound('highscore');
+                        game.audio.playSound('highscore');
                         var newBox = new game.Sprite(-208, 59, 'media/new.png');
                         box.addChild(newBox);
                     }
@@ -139,7 +139,10 @@ SceneGame = game.Scene.extend({
     },
 
     showRestartButton: function() {
-        this.addTween(this.restartButton.scale, {x:1, y:1}, 0.2, {easing: game.Tween.Easing.Back.Out}).start();
+        var tween = new game.Tween(this.restartButton.scale)
+            .to({x:1, y:1}, 200)
+            .easing(game.Tween.Easing.Back.Out)
+            .start();
         this.stage.addChild(this.restartButton);
     },
 
@@ -155,10 +158,10 @@ SceneGame = game.Scene.extend({
             this.world.bodies[i].velocity.set(0,0);
         }
 
-        this.addTimer(0.5, this.showScore.bind(this));
+        this.addTimer(500, this.showScore.bind(this));
 
-        game.sound.stopMusic();
-        game.sound.playSound('explosion');
+        game.audio.stopMusic();
+        game.audio.playSound('explosion');
     }
 });
 
