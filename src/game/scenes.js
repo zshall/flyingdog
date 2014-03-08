@@ -36,7 +36,8 @@ SceneGame = game.Scene.extend({
         this.player = new Player();
         
         var groundBody = new game.Body({
-            position: {x: game.system.width / 2, y: 850}
+            position: {x: game.system.width / 2, y: 850},
+            collisionGroup: 0
         });
         var groundShape = new game.Rectangle(game.system.width, 100);
         groundBody.addShape(groundShape);

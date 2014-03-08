@@ -107,7 +107,8 @@ Gap = game.Class.extend({
         var topHeight = y - this.height / 2;
         this.topBody = new game.Body({
             position: {x: game.system.width + this.width / 2, y: topHeight / 2},
-            velocity: {x: this.speed}
+            velocity: {x: this.speed},
+            collisionGroup: 0
         });
         var topShape = new game.Rectangle(this.width, topHeight);
         this.topBody.addShape(topShape);
@@ -116,7 +117,8 @@ Gap = game.Class.extend({
         var bottomHeight = this.groundTop - topHeight - this.height;
         this.bottomBody = new game.Body({
             position: {x: game.system.width + this.width / 2, y: topHeight + this.height + bottomHeight / 2},
-            velocity: {x: this.speed}
+            velocity: {x: this.speed},
+            collisionGroup: 0
         });
         var bottomShape = new game.Rectangle(this.width, bottomHeight);
         this.bottomBody.addShape(bottomShape);
