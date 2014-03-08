@@ -134,7 +134,7 @@ Gap = game.Class.extend({
             game.scene.world.removeBody(this);
             game.scene.addScore();
             return false;
-        }
+        };
         var goalShape = new game.Rectangle(this.width, this.height + game.scene.player.body.shape.height);
         this.goalBody.addShape(goalShape);
         game.scene.world.addBody(this.goalBody);
@@ -208,8 +208,8 @@ Logo = game.Class.extend({
     remove: function() {
         var tween = new game.Tween(this.container)
             .to({alpha: 0}, 1000)
-            .onComplete(this.container.remove.bind(this))
-            .start();
+            .onComplete(this.container.remove.bind(this));
+        tween.start();
     }
 });
 

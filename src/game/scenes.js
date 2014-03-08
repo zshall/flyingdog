@@ -142,8 +142,8 @@ SceneGame = game.Scene.extend({
     showRestartButton: function() {
         var tween = new game.Tween(this.restartButton.scale)
             .to({x:1, y:1}, 200)
-            .easing(game.Tween.Easing.Back.Out)
-            .start();
+            .easing(game.Tween.Easing.Back.Out);
+        tween.start();
         this.stage.addChild(this.restartButton);
     },
 
