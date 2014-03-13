@@ -4,4 +4,6 @@ Flappy Bird clone made with [Panda.js](http://github.com/ekelokorpi/panda.js) ga
 
 ## Install
 
-Copy `engine` folder from [Panda.js](http://github.com/ekelokorpi/panda.js) to `src` folder.
+1) Install local web server. Guide: http://phaser.io/getting-started-js2.php
+
+2) Copy `engine` folder from [Panda.js](http://github.com/ekelokorpi/panda.js) to `src` folder.
