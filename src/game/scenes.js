@@ -73,7 +73,8 @@ SceneGame = game.Scene.extend({
     },
 
     addParallax: function(y, path, speed) {
-        var parallax = new game.TilingSprite(0, y, path);
+        var parallax = new game.TilingSprite(path);
+        parallax.position.y = y;
         parallax.speed.x = speed;
         this.addObject(parallax);
         this.stage.addChild(parallax);
