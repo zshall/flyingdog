@@ -47,7 +47,7 @@ SceneGame = game.Scene.extend({
         this.scoreText.position.x = game.system.width / 2 - this.scoreText.textWidth / 2;
         this.stage.addChild(this.scoreText);
 
-        var text = new game.Sprite(game.system.width / 2, game.system.height - 48, 'media/madewithpanda.png', {
+        var text = new game.Sprite('media/madewithpanda.png', game.system.width / 2, game.system.height - 48, {
             anchor: {x:0.5, y:0}
         });
         this.stage.addChild(text);
@@ -67,7 +67,7 @@ SceneGame = game.Scene.extend({
     },
 
     addCloud: function(x, y, path, speed) {
-        var cloud = new Cloud(x, y, path, {speed: speed});
+        var cloud = new Cloud(path, x, y, {speed: speed});
         this.addObject(cloud);
         this.stage.addChild(cloud);
     },
@@ -92,7 +92,7 @@ SceneGame = game.Scene.extend({
     },
 
     showScore: function() {
-        var box = new game.Sprite(game.system.width / 2, game.system.height / 2, 'media/gameover.png', {anchor: {x:0.5, y:0.5}});
+        var box = new game.Sprite('media/gameover.png', game.system.width / 2, game.system.height / 2, {anchor: {x:0.5, y:0.5}});
 
         var highScore = parseInt(game.storage.get('highScore')) || 0;
         if(this.score > highScore) game.storage.set('highScore', this.score);
@@ -109,7 +109,7 @@ SceneGame = game.Scene.extend({
 
         game.scene.stage.addChild(box);
 
-        this.restartButton = new game.Sprite(game.system.width / 2, game.system.height / 2 + 250, 'media/restart.png', {
+        this.restartButton = new game.Sprite('media/restart.png', game.system.width / 2, game.system.height / 2 + 250, {
             anchor: {x:0.5, y:0.5},
             scale: {x:0, y:0},
             interactive: true,
@@ -129,7 +129,7 @@ SceneGame = game.Scene.extend({
                     this.repeat = false;
                     if(game.scene.score > highScore) {
                         game.audio.playSound('highscore');
-                        var newBox = new game.Sprite(-208, 59, 'media/new.png');
+                        var newBox = new game.Sprite('media/new.png', -208, 59);
                         box.addChild(newBox);
                     }
                     game.scene.showRestartButton();

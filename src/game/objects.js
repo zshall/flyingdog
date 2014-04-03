@@ -139,13 +139,13 @@ Gap = game.Class.extend({
         this.goalBody.addShape(goalShape);
         game.scene.world.addBody(this.goalBody);
 
-        this.topSprite = new game.Sprite(game.system.width + this.width / 2, topHeight, 'media/bar.png', {
+        this.topSprite = new game.Sprite('media/bar.png', game.system.width + this.width / 2, topHeight, {
             anchor: {x: 0.5, y: 0.0},
             scale: {y: -1}
         });
         game.scene.gapContainer.addChild(this.topSprite);
 
-        this.bottomSprite = new game.Sprite(game.system.width + this.width / 2, topHeight + this.height, 'media/bar.png', {
+        this.bottomSprite = new game.Sprite('media/bar.png', game.system.width + this.width / 2, topHeight + this.height, {
             anchor: {x: 0.5, y: 0.0},
         });
         game.scene.gapContainer.addChild(this.bottomSprite);
@@ -184,7 +184,7 @@ Logo = game.Class.extend({
             .easing(game.Tween.Easing.Back.Out)
             .start();
 
-        sprite = new game.Sprite(game.system.width / 2, 0, 'media/logo1.png', {anchor: {x:0.5, y:0.5}});
+        sprite = new game.Sprite('media/logo1.png', game.system.width / 2, 0, {anchor: {x:0.5, y:0.5}});
         this.container.addChild(sprite);
         tween = new game.Tween(sprite.position)
             .to({y: -20}, 1000)
@@ -193,7 +193,7 @@ Logo = game.Class.extend({
             .yoyo()
             .start();
 
-        sprite = new game.Sprite(game.system.width / 2, 80, 'media/logo2.png', {anchor: {x:0.5, y:0.5}});
+        sprite = new game.Sprite('media/logo2.png', game.system.width / 2, 80, {anchor: {x:0.5, y:0.5}});
         this.container.addChild(sprite);
         tween = new game.Tween(sprite.position)
             .to({y: 100}, 1000)
