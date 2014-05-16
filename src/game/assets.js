@@ -7,35 +7,35 @@ game.module(
 .body(function() {
 
 // Sprites
-game.addAsset('media/player1.png');
-game.addAsset('media/player2.png');
-game.addAsset('media/logo2.png');
-game.addAsset('media/logo1.png');
-game.addAsset('media/cloud4.png');
-game.addAsset('media/cloud3.png');
-game.addAsset('media/cloud2.png');
-game.addAsset('media/cloud1.png');
-game.addAsset('media/ground.png');
-game.addAsset('media/bushes.png');
-game.addAsset('media/parallax3.png');
-game.addAsset('media/parallax2.png');
-game.addAsset('media/parallax1.png');
-game.addAsset('media/particle.png');
-game.addAsset('media/particle2.png');
-game.addAsset('media/bar.png');
-game.addAsset('media/gameover.png');
-game.addAsset('media/new.png');
-game.addAsset('media/restart.png');
-game.addAsset('media/madewithpanda.png');
+game.addAsset('player1.png');
+game.addAsset('player2.png');
+game.addAsset('logo2.png');
+game.addAsset('logo1.png');
+game.addAsset('cloud4.png');
+game.addAsset('cloud3.png');
+game.addAsset('cloud2.png');
+game.addAsset('cloud1.png');
+game.addAsset('ground.png');
+game.addAsset('bushes.png');
+game.addAsset('parallax3.png');
+game.addAsset('parallax2.png');
+game.addAsset('parallax1.png');
+game.addAsset('particle.png');
+game.addAsset('particle2.png');
+game.addAsset('bar.png');
+game.addAsset('gameover.png');
+game.addAsset('new.png');
+game.addAsset('restart.png');
+game.addAsset('madewithpanda.png');
 
 // Font
-game.addAsset('media/font.fnt');
+game.addAsset('font.fnt');
 
 // Sounds
-game.addAudio('media/sound/explosion.m4a', 'explosion');
-game.addAudio('media/sound/jump.m4a', 'jump');
-game.addAudio('media/sound/score.m4a', 'score');
-game.addAudio('media/sound/highscore.m4a', 'highscore');
-game.addAudio('media/sound/music.m4a', 'music');
+game.addAudio('sound/explosion.m4a', 'explosion');
+game.addAudio('sound/jump.m4a', 'jump');
+game.addAudio('sound/score.m4a', 'score');
+game.addAudio('sound/highscore.m4a', 'highscore');
+game.addAudio('sound/music.m4a', 'music');
 
 });
