@@ -25,13 +25,13 @@ Player = game.Class.extend({
         game.scene.addObject(this);
 
         this.body = new game.Body({
-            position: {x: x, y: y},
-            velocityLimit: {x: 100, y: 1000},
+            position: { x: x, y: y },
+            velocityLimit: { x: 100, y: 1000 },
             collideAgainst: 0,
             collisionGroup: 1,
         });
         this.body.collide = this.collide.bind(this);
-        var shape = new game.Rectangle(128+4, 48-4-8);
+        var shape = new game.Rectangle(128 + 4, 48 - 4 - 8);
         this.body.addShape(shape);
         game.scene.world.addBody(this.body);
 
@@ -51,10 +51,10 @@ Player = game.Class.extend({
         this.flyEmitter = new game.Emitter({
             life: 0,
             rate: 0,
-            positionVar: {x: 50, y: 50},
+            positionVar: { x: 50, y: 50 },
             targetForce: 200,
             speed: 100,
-            velocityLimit: {x: 100, y: 100},
+            velocityLimit: { x: 100, y: 100 },
             endAlpha: 1
         });
         this.flyEmitter.container = game.scene.stage;
@@ -66,7 +66,7 @@ Player = game.Class.extend({
     },
 
     collide: function() {
-        if(!game.scene.ended) {
+        if (!game.scene.ended) {
             game.scene.gameOver();
             this.body.velocity.y = -200;
             this.smokeEmitter.rate = 0;
@@ -87,7 +87,7 @@ Player = game.Class.extend({
     },
 
     jump: function() {
-        if(this.body.position.y < 0) return;
+        if (this.body.position.y < 0) return;
         this.body.velocity.y = this.jumpPower;
         game.audio.playSound('jump');
     }
@@ -106,8 +106,8 @@ Gap = game.Class.extend({
 
         var topHeight = y - this.height / 2;
         this.topBody = new game.Body({
-            position: {x: game.system.width + this.width / 2, y: topHeight / 2},
-            velocity: {x: this.speed},
+            position: { x: game.system.width + this.width / 2, y: topHeight / 2 },
+            velocity: { x: this.speed },
             collisionGroup: 0
         });
         var topShape = new game.Rectangle(this.width, topHeight);
@@ -116,8 +116,8 @@ Gap = game.Class.extend({
 
         var bottomHeight = this.groundTop - topHeight - this.height;
         this.bottomBody = new game.Body({
-            position: {x: game.system.width + this.width / 2, y: topHeight + this.height + bottomHeight / 2},
-            velocity: {x: this.speed},
+            position: { x: game.system.width + this.width / 2, y: topHeight + this.height + bottomHeight / 2 },
+            velocity: { x: this.speed },
             collisionGroup: 0
         });
         var bottomShape = new game.Rectangle(this.width, bottomHeight);
@@ -125,8 +125,8 @@ Gap = game.Class.extend({
         game.scene.world.addBody(this.bottomBody);
 
         this.goalBody = new game.Body({
-            position: {x: game.system.width + this.width / 2 + this.width + game.scene.player.body.shape.width, y: topHeight + this.height / 2},
-            velocity: {x: this.speed},
+            position: { x: game.system.width + this.width / 2 + this.width + game.scene.player.body.shape.width, y: topHeight + this.height / 2 },
+            velocity: { x: this.speed },
             collisionGroup: 1,
             collideAgainst: 1
         });
@@ -140,20 +140,20 @@ Gap = game.Class.extend({
         game.scene.world.addBody(this.goalBody);
 
         this.topSprite = new game.Sprite('bar.png', game.system.width + this.width / 2, topHeight, {
-            anchor: {x: 0.5, y: 0.0},
-            scale: {y: -1}
+            anchor: { x: 0.5, y: 0.0 },
+            scale: { y: -1 }
         });
         game.scene.gapContainer.addChild(this.topSprite);
 
         this.bottomSprite = new game.Sprite('bar.png', game.system.width + this.width / 2, topHeight + this.height, {
-            anchor: {x: 0.5, y: 0.0},
+            anchor: { x: 0.5, y: 0.0 },
         });
         game.scene.gapContainer.addChild(this.bottomSprite);
     },
 
     update: function() {
         this.topSprite.position.x = this.bottomSprite.position.x = this.topBody.position.x;
-        if(this.topSprite.position.x + this.width / 2 < 0) {
+        if (this.topSprite.position.x + this.width / 2 < 0) {
             game.scene.world.removeBody(this.topBody);
             game.scene.world.removeBody(this.bottomBody);
             game.scene.world.removeBody(this.goalBody);
@@ -167,7 +167,7 @@ Gap = game.Class.extend({
 Cloud = game.Sprite.extend({
     update: function() {
         this.position.x += this.speed * game.scene.cloudSpeedFactor * game.system.delta;
-        if(this.position.x + this.width < 0) this.position.x = game.system.width;
+        if (this.position.x + this.width < 0) this.position.x = game.system.width;
     }
 });
 
@@ -179,24 +179,24 @@ Logo = game.Class.extend({
         this.container.position.y = -150;
         
         tween = new game.Tween(this.container.position)
-            .to({y: 200}, 1500)
+            .to({ y: 200 }, 1500)
             .delay(100)
             .easing(game.Tween.Easing.Back.Out)
             .start();
 
-        sprite = new game.Sprite('logo1.png', game.system.width / 2, 0, {anchor: {x:0.5, y:0.5}});
+        sprite = new game.Sprite('logo1.png', game.system.width / 2, 0, { anchor: { x: 0.5, y: 0.5 }});
         this.container.addChild(sprite);
         tween = new game.Tween(sprite.position)
-            .to({y: -20}, 1000)
+            .to({ y: -20 }, 1000)
             .easing(game.Tween.Easing.Quadratic.InOut)
             .repeat()
             .yoyo()
             .start();
 
-        sprite = new game.Sprite('logo2.png', game.system.width / 2, 80, {anchor: {x:0.5, y:0.5}});
+        sprite = new game.Sprite('logo2.png', game.system.width / 2, 80, { anchor: { x: 0.5, y: 0.5 }});
         this.container.addChild(sprite);
         tween = new game.Tween(sprite.position)
-            .to({y: 100}, 1000)
+            .to({ y: 100 }, 1000)
             .easing(game.Tween.Easing.Quadratic.InOut)
             .repeat()
             .yoyo()
@@ -207,7 +207,7 @@ Logo = game.Class.extend({
 
     remove: function() {
         var tween = new game.Tween(this.container)
-            .to({alpha: 0}, 1000)
+            .to({ alpha: 0 }, 1000)
             .onComplete(this.container.remove.bind(this));
         tween.start();
     }

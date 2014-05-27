@@ -8,7 +8,7 @@ game.module(
     'game.objects',
     'game.scenes'
 )
-.body(function(){
+.body(function() {
 
 game.start();
 

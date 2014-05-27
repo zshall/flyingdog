@@ -36,19 +36,19 @@ SceneGame = game.Scene.extend({
         this.player = new Player();
         
         var groundBody = new game.Body({
-            position: {x: game.system.width / 2, y: 850},
+            position: { x: game.system.width / 2, y: 850 },
             collisionGroup: 0
         });
         var groundShape = new game.Rectangle(game.system.width, 100);
         groundBody.addShape(groundShape);
         this.world.addBody(groundBody);
 
-        this.scoreText = new game.BitmapText(this.score.toString(), {font: 'Pixel'});
+        this.scoreText = new game.BitmapText(this.score.toString(), { font: 'Pixel' });
         this.scoreText.position.x = game.system.width / 2 - this.scoreText.textWidth / 2;
         this.stage.addChild(this.scoreText);
 
         var text = new game.Sprite('madewithpanda.png', game.system.width / 2, game.system.height - 48, {
-            anchor: {x:0.5, y:0}
+            anchor: { x: 0.5, y: 0 }
         });
         this.stage.addChild(text);
 
@@ -67,7 +67,7 @@ SceneGame = game.Scene.extend({
     },
 
     addCloud: function(x, y, path, speed) {
-        var cloud = new Cloud(path, x, y, {speed: speed});
+        var cloud = new Cloud(path, x, y, { speed: speed });
         this.addObject(cloud);
         this.stage.addChild(cloud);
     },
@@ -81,8 +81,8 @@ SceneGame = game.Scene.extend({
     },
 
     mousedown: function() {
-        if(this.ended) return;
-        if(this.player.body.mass === 0) {
+        if (this.ended) return;
+        if (this.player.body.mass === 0) {
             game.analytics.event('play');
             this.player.body.mass = 1;
             this.logo.remove();
@@ -92,17 +92,17 @@ SceneGame = game.Scene.extend({
     },
 
     showScore: function() {
-        var box = new game.Sprite('gameover.png', game.system.width / 2, game.system.height / 2, {anchor: {x:0.5, y:0.5}});
+        var box = new game.Sprite('gameover.png', game.system.width / 2, game.system.height / 2, { anchor: { x: 0.5, y: 0.5 }});
 
         var highScore = parseInt(game.storage.get('highScore')) || 0;
-        if(this.score > highScore) game.storage.set('highScore', this.score);
+        if (this.score > highScore) game.storage.set('highScore', this.score);
 
-        var highScoreText = new game.BitmapText(highScore.toString(), {font: 'Pixel'});
+        var highScoreText = new game.BitmapText(highScore.toString(), { font: 'Pixel' });
         highScoreText.position.x = 27;
         highScoreText.position.y = 43;
         box.addChild(highScoreText);
 
-        var scoreText = new game.BitmapText('0', {font: 'Pixel'});
+        var scoreText = new game.BitmapText('0', { font: 'Pixel' });
         scoreText.position.x = highScoreText.position.x;
         scoreText.position.y = -21;
         box.addChild(scoreText);
@@ -110,8 +110,8 @@ SceneGame = game.Scene.extend({
         game.scene.stage.addChild(box);
 
         this.restartButton = new game.Sprite('restart.png', game.system.width / 2, game.system.height / 2 + 250, {
-            anchor: {x:0.5, y:0.5},
-            scale: {x:0, y:0},
+            anchor: { x: 0.5, y: 0.5 },
+            scale: { x: 0, y: 0 },
             interactive: true,
             mousedown: function() {
                 game.analytics.event('restart');
@@ -119,15 +119,15 @@ SceneGame = game.Scene.extend({
             }
         });
 
-        if(this.score > 0) {
+        if (this.score > 0) {
             var time = Math.min(100, (1 / this.score) * 1000);
             var scoreCounter = 0;
             this.addTimer(time, function() {
                 scoreCounter++;
                 scoreText.setText(scoreCounter.toString());
-                if(scoreCounter >= game.scene.score) {
+                if (scoreCounter >= game.scene.score) {
                     this.repeat = false;
-                    if(game.scene.score > highScore) {
+                    if (game.scene.score > highScore) {
                         game.audio.playSound('highscore');
                         var newBox = new game.Sprite('new.png', -208, 59);
                         box.addChild(newBox);
@@ -135,14 +135,15 @@ SceneGame = game.Scene.extend({
                     game.scene.showRestartButton();
                 }
             }, true);
-        } else {
+        }
+        else {
             this.showRestartButton();
         }
     },
 
     showRestartButton: function() {
         var tween = new game.Tween(this.restartButton.scale)
-            .to({x:1, y:1}, 200)
+            .to({ x: 1, y: 1 }, 200)
             .easing(game.Tween.Easing.Back.Out);
         tween.start();
         this.stage.addChild(this.restartButton);
@@ -154,10 +155,10 @@ SceneGame = game.Scene.extend({
         this.ended = true;
         this.timers.length = 0;
         for (i = 0; i < this.objects.length; i++) {
-            if(this.objects[i].speed) this.objects[i].speed.x = 0;
+            if (this.objects[i].speed) this.objects[i].speed.x = 0;
         }
         for (i = 0; i < this.world.bodies.length; i++) {
-            this.world.bodies[i].velocity.set(0,0);
+            this.world.bodies[i].velocity.set(0, 0);
         }
 
         this.addTimer(500, this.showScore.bind(this));
