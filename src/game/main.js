@@ -2,7 +2,6 @@ game.module(
     'game.main'
 )
 .require(
-    'engine.core',
     'engine.physics',
     'engine.particle',
     'game.assets',
@@ -11,6 +10,6 @@ game.module(
 )
 .body(function(){
 
-game.start(SceneGame, 768, 1024);
+game.start();
 
 });

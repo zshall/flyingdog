@@ -13,8 +13,8 @@ Player = game.Class.extend({
         var x = game.system.width / 2;
         var y = 500;
         this.sprite = new game.MovieClip([
-            game.Texture.fromImage('media/player1.png'),
-            game.Texture.fromImage('media/player2.png')
+            game.Texture.fromImage('player1.png'),
+            game.Texture.fromImage('player2.png')
         ]);
         this.sprite.position.x = x;
         this.sprite.position.y = y;
@@ -45,7 +45,7 @@ Player = game.Class.extend({
             speed: 400,
         });
         this.smokeEmitter.container = game.scene.stage;
-        this.smokeEmitter.textures.push('media/particle.png');
+        this.smokeEmitter.textures.push('particle.png');
         game.scene.emitters.push(this.smokeEmitter);
 
         this.flyEmitter = new game.Emitter({
@@ -58,7 +58,7 @@ Player = game.Class.extend({
             endAlpha: 1
         });
         this.flyEmitter.container = game.scene.stage;
-        this.flyEmitter.textures.push('media/particle2.png');
+        this.flyEmitter.textures.push('particle2.png');
         this.flyEmitter.position.x = this.sprite.position.x + 30;
         this.flyEmitter.position.y = this.sprite.position.y - 30;
         this.flyEmitter.emit(5);
@@ -102,7 +102,7 @@ Gap = game.Class.extend({
     speed: -300,
 
     init: function() {
-        var y = Math.round(game.Math.random(this.minY, this.maxY));
+        var y = Math.round(Math.randomBetween(this.minY, this.maxY));
 
         var topHeight = y - this.height / 2;
         this.topBody = new game.Body({
@@ -139,13 +139,13 @@ Gap = game.Class.extend({
         this.goalBody.addShape(goalShape);
         game.scene.world.addBody(this.goalBody);
 
-        this.topSprite = new game.Sprite('media/bar.png', game.system.width + this.width / 2, topHeight, {
+        this.topSprite = new game.Sprite('bar.png', game.system.width + this.width / 2, topHeight, {
             anchor: {x: 0.5, y: 0.0},
             scale: {y: -1}
         });
         game.scene.gapContainer.addChild(this.topSprite);
 
-        this.bottomSprite = new game.Sprite('media/bar.png', game.system.width + this.width / 2, topHeight + this.height, {
+        this.bottomSprite = new game.Sprite('bar.png', game.system.width + this.width / 2, topHeight + this.height, {
             anchor: {x: 0.5, y: 0.0},
         });
         game.scene.gapContainer.addChild(this.bottomSprite);
@@ -184,7 +184,7 @@ Logo = game.Class.extend({
             .easing(game.Tween.Easing.Back.Out)
             .start();
 
-        sprite = new game.Sprite('media/logo1.png', game.system.width / 2, 0, {anchor: {x:0.5, y:0.5}});
+        sprite = new game.Sprite('logo1.png', game.system.width / 2, 0, {anchor: {x:0.5, y:0.5}});
         this.container.addChild(sprite);
         tween = new game.Tween(sprite.position)
             .to({y: -20}, 1000)
@@ -193,7 +193,7 @@ Logo = game.Class.extend({
             .yoyo()
             .start();
 
-        sprite = new game.Sprite('media/logo2.png', game.system.width / 2, 80, {anchor: {x:0.5, y:0.5}});
+        sprite = new game.Sprite('logo2.png', game.system.width / 2, 80, {anchor: {x:0.5, y:0.5}});
         this.container.addChild(sprite);
         tween = new game.Tween(sprite.position)
             .to({y: 100}, 1000)
