@@ -80,8 +80,11 @@ SceneGame = game.Scene.extend({
         this.stage.addChild(parallax);
     },
 
-    mousedown: function() {
+    mousedown: function(event) {
         if (this.ended) return;
+
+        if (game.device.mobile && !event.originalEvent.changedTouches) return;
+
         if (this.player.body.mass === 0) {
             game.analytics.event('play');
             this.player.body.mass = 1;
