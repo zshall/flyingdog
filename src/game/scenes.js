@@ -133,7 +133,7 @@ SceneGame = game.Scene.extend({
                     this.repeat = false;
                     if (game.scene.score > highScore) {
                         game.audio.playSound('highscore');
-                        var newBox = new game.Sprite('new.png', -208, 59);
+                        var newBox = new game.Sprite('new.png', -235, -4);
                         box.addChild(newBox);
                     }
                     game.scene.showRestartButton();
