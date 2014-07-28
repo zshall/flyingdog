@@ -116,6 +116,7 @@ SceneGame = game.Scene.extend({
             anchor: { x: 0.5, y: 0.5 },
             scale: { x: 0, y: 0 },
             interactive: true,
+            buttonMode: true,
             mousedown: function() {
                 game.analytics.event('restart');
                 game.system.setScene(SceneGame);

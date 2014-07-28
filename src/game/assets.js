@@ -1,9 +1,6 @@
 game.module(
     'game.assets'
 )
-.require(
-    'engine.audio'
-)
 .body(function() {
 
 game.addAsset('sprites.json');

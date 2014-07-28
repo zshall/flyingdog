@@ -2,7 +2,7 @@ game.module(
     'game.objects'
 )
 .require(
-    'engine.sprite'
+    'engine.renderer'
 )
 .body(function() {
 
@@ -12,7 +12,7 @@ Player = game.Class.extend({
     init: function() {
         var x = game.system.width / 2;
         var y = 500;
-        this.sprite = new game.MovieClip([
+        this.sprite = new game.Animation([
             game.Texture.fromImage('player1.png'),
             game.Texture.fromImage('player2.png')
         ]);
