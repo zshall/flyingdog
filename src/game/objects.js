@@ -1,27 +1,24 @@
 game.module(
     'game.objects'
 )
-.require(
-    'engine.renderer'
-)
 .body(function() {
 
-Player = game.Class.extend({
-    jumpPower: -750,
+game.createClass('Player', {
+    jumpPower: 750,
 
     init: function() {
         var x = game.system.width / 2;
         var y = 500;
-        this.sprite = new game.Animation([
-            game.Texture.fromImage('player1.png'),
-            game.Texture.fromImage('player2.png')
-        ]);
-        this.sprite.position.x = x;
-        this.sprite.position.y = y;
-        this.sprite.anchor.x = this.sprite.anchor.y = 0.5;
+
+        this.sprite = new game.Animation(
+            'player1.png',
+            'player2.png'
+        );
+        this.sprite.position.set(x, y);
+        this.sprite.anchor.set(0.5, 0.5);
         this.sprite.animationSpeed = 0.1;
         this.sprite.play();
-        game.scene.stage.addChild(this.sprite);
+        this.sprite.addTo(game.scene.stage);
         game.scene.addObject(this);
 
         this.body = new game.Body({
@@ -31,8 +28,7 @@ Player = game.Class.extend({
             collisionGroup: 1,
         });
         this.body.collide = this.collide.bind(this);
-        var shape = new game.Rectangle(128 + 4, 48 - 4 - 8);
-        this.body.addShape(shape);
+        this.body.addShape(new game.Rectangle(132, 36));
         game.scene.world.addBody(this.body);
 
         this.smokeEmitter = new game.Emitter({
@@ -43,10 +39,10 @@ Player = game.Class.extend({
             lifeVar: 0.2,
             count: 2,
             speed: 400,
+            textures: ['particle.png']
         });
-        this.smokeEmitter.container = game.scene.stage;
-        this.smokeEmitter.textures.push('particle.png');
-        game.scene.emitters.push(this.smokeEmitter);
+        this.smokeEmitter.addTo(game.scene.stage);
+        game.scene.addEmitter(this.smokeEmitter);
 
         this.flyEmitter = new game.Emitter({
             life: 0,
@@ -55,14 +51,16 @@ Player = game.Class.extend({
             targetForce: 200,
             speed: 100,
             velocityLimit: { x: 100, y: 100 },
-            endAlpha: 1
+            endAlpha: 1,
+            textures: ['particle2.png'],
+            position: {
+                x: this.sprite.position.x + 30,
+                y: this.sprite.position.y - 30
+            }
         });
-        this.flyEmitter.container = game.scene.stage;
-        this.flyEmitter.textures.push('particle2.png');
-        this.flyEmitter.position.x = this.sprite.position.x + 30;
-        this.flyEmitter.position.y = this.sprite.position.y - 30;
+        this.flyEmitter.addTo(game.scene.stage);
         this.flyEmitter.emit(5);
-        game.scene.emitters.push(this.flyEmitter);
+        game.scene.addEmitter(this.flyEmitter);
     },
 
     collide: function() {
@@ -75,6 +73,12 @@ Player = game.Class.extend({
         return true;
     },
 
+    jump: function() {
+        if (this.body.position.y <= 0) return;
+        this.body.velocity.y = -this.jumpPower;
+        game.audio.playSound('jump');
+    },
+
     update: function() {
         this.sprite.position.x = this.body.position.x;
         this.sprite.position.y = this.body.position.y;
@@ -84,16 +88,10 @@ Player = game.Class.extend({
 
         this.flyEmitter.target.x = this.sprite.position.x + 30;
         this.flyEmitter.target.y = this.sprite.position.y - 30;
-    },
-
-    jump: function() {
-        if (this.body.position.y < 0) return;
-        this.body.velocity.y = this.jumpPower;
-        game.audio.playSound('jump');
     }
 });
 
-Gap = game.Class.extend({
+game.createClass('Obstacle', {
     groundTop: 800,
     width: 132,
     minY: 150,
@@ -102,7 +100,7 @@ Gap = game.Class.extend({
     speed: -300,
 
     init: function() {
-        var y = Math.round(Math.randomBetween(this.minY, this.maxY));
+        var y = Math.round(Math.random(this.minY, this.maxY));
 
         var topHeight = y - this.height / 2;
         this.topBody = new game.Body({
@@ -143,73 +141,84 @@ Gap = game.Class.extend({
             anchor: { x: 0.5, y: 0.0 },
             scale: { y: -1 }
         });
-        game.scene.gapContainer.addChild(this.topSprite);
+        this.topSprite.addTo(game.scene.obstacleContainer);
 
         this.bottomSprite = new game.Sprite('bar.png', game.system.width + this.width / 2, topHeight + this.height, {
             anchor: { x: 0.5, y: 0.0 },
         });
-        game.scene.gapContainer.addChild(this.bottomSprite);
+        this.bottomSprite.addTo(game.scene.obstacleContainer);
+    },
+
+    remove: function() {
+        game.scene.world.removeBody(this.topBody);
+        game.scene.world.removeBody(this.bottomBody);
+        game.scene.world.removeBody(this.goalBody);
+        game.scene.obstacleContainer.removeChild(this.topSprite);
+        game.scene.obstacleContainer.removeChild(this.bottomSprite);
+        game.scene.removeObject(this);
     },
 
     update: function() {
         this.topSprite.position.x = this.bottomSprite.position.x = this.topBody.position.x;
-        if (this.topSprite.position.x + this.width / 2 < 0) {
-            game.scene.world.removeBody(this.topBody);
-            game.scene.world.removeBody(this.bottomBody);
-            game.scene.world.removeBody(this.goalBody);
-            game.scene.gapContainer.removeChild(this.topSprite);
-            game.scene.gapContainer.removeChild(this.bottomSprite);
-            game.scene.removeObject(this);
-        }
+        if (this.topSprite.position.x + this.width / 2 < 0) this.remove();
     }
 });
 
-Cloud = game.Sprite.extend({
+game.createClass('Cloud', {
+    init: function(path, x, y, speed) {
+        this.sprite = new game.Sprite(path);
+        this.sprite.position.set(x, y);
+        this.speed = speed;
+    },
+
     update: function() {
-        this.position.x += this.speed * game.scene.cloudSpeedFactor * game.system.delta;
-        if (this.position.x + this.width < 0) this.position.x = game.system.width;
+        this.sprite.position.x += this.speed * game.scene.cloudSpeedFactor * game.system.delta;
+        if (this.sprite.position.x + this.sprite.width <= 0) this.sprite.position.x = game.system.width;
     }
 });
 
-Logo = game.Class.extend({
+game.createClass('Logo', {
     init: function() {
-        var tween, sprite;
-
         this.container = new game.Container();
         this.container.position.y = -150;
-        
-        tween = new game.Tween(this.container.position)
-            .to({ y: 200 }, 1500)
-            .delay(100)
-            .easing(game.Tween.Easing.Back.Out)
-            .start();
+        this.container.addTo(game.scene.stage);
 
-        sprite = new game.Sprite('logo1.png', game.system.width / 2, 0, { anchor: { x: 0.5, y: 0.5 }});
-        this.container.addChild(sprite);
-        tween = new game.Tween(sprite.position)
-            .to({ y: -20 }, 1000)
-            .easing(game.Tween.Easing.Quadratic.InOut)
-            .repeat()
-            .yoyo()
-            .start();
+        var logo1 = new game.Sprite('logo1.png', game.system.width / 2, 0, { anchor: { x: 0.5, y: 0.5 }});
+        logo1.addTo(this.container);
 
-        sprite = new game.Sprite('logo2.png', game.system.width / 2, 80, { anchor: { x: 0.5, y: 0.5 }});
-        this.container.addChild(sprite);
-        tween = new game.Tween(sprite.position)
-            .to({ y: 100 }, 1000)
-            .easing(game.Tween.Easing.Quadratic.InOut)
-            .repeat()
-            .yoyo()
-            .start();
+        var logo2 = new game.Sprite('logo2.png', game.system.width / 2, 80, { anchor: { x: 0.5, y: 0.5 }});
+        logo2.addTo(this.container);
 
-        game.scene.stage.addChild(this.container);
+        game.scene.addTween(this.container.position, {
+            y: 200
+        }, 1500, {
+            delay: 100,
+            easing: 'Back.Out'
+        }).start();
+
+        game.scene.addTween(logo1.position, {
+            y: -20
+        }, 1000, {
+            repeat: Infinity,
+            yoyo: true,
+            easing: 'Quadratic.InOut'
+        }).start();
+
+        game.scene.addTween(logo2.position, {
+            y: 100
+        }, 1000, {
+            repeat: Infinity,
+            yoyo: true,
+            easing: 'Quadratic.InOut'
+        }).start();
     },
 
     remove: function() {
-        var tween = new game.Tween(this.container)
-            .to({ alpha: 0 }, 1000)
-            .onComplete(this.container.remove.bind(this));
-        tween.start();
+        game.scene.addTween(this.container, {
+            alpha: 0
+        }, 1000, {
+            onComplete: this.container.remove.bind(this)
+        }).start();
     }
 });
 
