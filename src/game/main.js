@@ -120,7 +120,7 @@ game.createScene('Main', {
             interactive: true,
             buttonMode: true,
             mousedown: function() {
-                game.system.setScene('Game');
+                game.system.setScene('Main'); // bug fixed
             }
         });
 
