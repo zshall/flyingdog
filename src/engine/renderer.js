@@ -105,12 +105,6 @@ game.BaseTexture = game.PIXI.BaseTexture;
 **/
 game.Sprite = game.PIXI.Sprite.extend({
     debugDraw: true,
-    /**
-        Should sprite render only, when onscreen.
-        @property {Boolean} culling
-        @default false
-    **/
-    culling: false,
 
     init: function(id, x, y, settings) {
         if (typeof id === 'string') {
@@ -194,29 +188,6 @@ game.Sprite = game.PIXI.Sprite.extend({
     addTo: function(container) {
         container.addChild(this);
         return this;
-    },
-
-    _preRender: function() {
-        if (this.culling) {
-            var bounds = this.getBounds();
-            if (bounds.x > game.system.width ||
-                bounds.x + bounds.width < 0 ||
-                bounds.y > game.system.height ||
-                bounds.y + bounds.height < 0) {
-                if (game.system.debug) game.system.debug.objects--;
-                return true;
-            }
-        }
-    },
-
-    _renderWebGL: function(renderSession) {
-        if (this._preRender()) return;
-        this._super(renderSession);
-    },
-
-    _renderCanvas: function(renderSession) {
-        if (this._preRender()) return;
-        this._super(renderSession);
     }
 });
 
