@@ -12,7 +12,7 @@ pandaConfig = {
         id: 'UA-42024756-5'
     },
     storage: {
-        id: 'net.pandajs.flyingdog2124'
+        id: 'net.pandajs.flyingdog'
     },
     iOS8: {
         system: {
