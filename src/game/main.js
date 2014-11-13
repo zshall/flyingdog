@@ -101,7 +101,7 @@ game.createScene('Main', {
         var box = new game.Sprite('gameover.png', game.system.width / 2, game.system.height / 2, { anchor: { x: 0.5, y: 0.5 }});
         box.addTo(this.stage);
 
-        var highScore = parseInt(game.storage.get('highScore')) || 0;
+        var highScore = game.storage.get('highScore', 0);
         if (this.score > highScore) game.storage.set('highScore', this.score);
 
         var highScoreText = new game.BitmapText(highScore.toString(), { font: 'Pixel' });

@@ -2,8 +2,9 @@
 
 Flappy Bird clone made with [Panda.js](http://github.com/ekelokorpi/panda.js) game engine.
 
-## Install
+## License
 
-1) Install [local web server](http://phaser.io/getting-started-js2.php) or use [Panda.js server](https://github.com/ekelokorpi/panda.js-tool).
+Released under the [MIT License](http://opensource.org/licenses/MIT).
 
-2) Copy `engine` folder from [Panda.js engine](http://github.com/ekelokorpi/panda.js) to `src` folder.
+You can use the game code anyway you want, but if you plan to publish it,
+at least change the name and graphics.

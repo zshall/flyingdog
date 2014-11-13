@@ -24,7 +24,7 @@ game.createClass('Player', {
         this.body = new game.Body({
             position: { x: x, y: y },
             velocityLimit: { x: 100, y: 1000 },
-            collideAgainst: 0,
+            collideAgainst: [0],
             collisionGroup: 1,
         });
         this.body.collide = this.collide.bind(this);
@@ -126,7 +126,7 @@ game.createClass('Obstacle', {
             position: { x: game.system.width + this.width / 2 + this.width + game.scene.player.body.shape.width, y: topHeight + this.height / 2 },
             velocity: { x: this.speed },
             collisionGroup: 1,
-            collideAgainst: 1
+            collideAgainst: [1]
         });
         this.goalBody.collide = function() {
             game.scene.world.removeBody(this);

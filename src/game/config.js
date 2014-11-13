@@ -1,6 +1,6 @@
 pandaConfig = {
     name: 'Flying Dog',
-    version: '0.1.0',
+    version: '1.0.0',
     
     system: {
         width: 768,
@@ -12,7 +12,7 @@ pandaConfig = {
         id: 'UA-42024756-5'
     },
     storage: {
-        id: 'net.pandajs.flyingdog'
+        id: 'net.pandajs.flyingdog2124'
     },
     iOS8: {
         system: {
