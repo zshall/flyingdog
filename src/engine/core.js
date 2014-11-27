@@ -28,16 +28,12 @@ var game = {
         Current engine version.
         @property {String} version
     **/
-    version: '1.10.0',
+    version: '1.10.1',
     /**
         Engine settings.
         @property {Object} config
     **/
     config: typeof pandaConfig !== 'undefined' ? pandaConfig : {},
-    /**
-        Configurable list of modules, that are loaded from core.
-        @property {Array} coreModules
-    **/
     coreModules: [
         'engine.analytics',
         'engine.audio',
@@ -365,7 +361,7 @@ var game = {
 
         if (this.Audio) this.audio = new this.Audio();
 
-        if (game.Debug.enabled) {
+        if (game.Debug && game.Debug.enabled) {
             console.log('Panda.js ' + game.version);
             console.log('Pixi.js ' + game.PIXI.VERSION.replace('v', ''));
             console.log((this.system.renderer.gl ? 'WebGL' : 'Canvas') + ' renderer ' + this.system.width + 'x' + this.system.height);
@@ -574,7 +570,6 @@ var game = {
             return this.charAt(0).toUpperCase() + this.slice(1);
         };
 
-        this.coreModules = this.config.coreModules || this.coreModules;
         this.module('engine.core');
 
         game.normalizeVendorAttribute(window, 'requestAnimationFrame');
