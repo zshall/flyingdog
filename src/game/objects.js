@@ -35,8 +35,8 @@ game.createClass('Player', {
             angle: Math.PI,
             angleVar: 0.1,
             endAlpha: 1,
-            life: 0.4,
-            lifeVar: 0.2,
+            life: 400,
+            lifeVar: 200,
             count: 2,
             speed: 400,
             textures: ['particle.png']
