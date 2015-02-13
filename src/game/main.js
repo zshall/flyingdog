@@ -8,7 +8,7 @@ game.module(
 .body(function() {
 
 game.createScene('Main', {
-    backgroundColor: 0xb2dcef,
+    backgroundColor: 0x000000,
     obstacleInterval: 1500,
     gravity: 2000,
     score: 0,
@@ -21,13 +21,13 @@ game.createScene('Main', {
         this.addParallax(550, 'parallax2.png', -100);
         this.addParallax(650, 'parallax3.png', -200);
 
-        this.addCloud(100, 100, 'cloud1.png', -50);
-        this.addCloud(300, 50, 'cloud2.png', -30);
+        /*this.addCloud(100, 100, 'cloud1.png', -50);
+        this.addCloud(300, 50, 'cloud2.png', -30);*/
 
         this.logo = new game.Logo();
 
-        this.addCloud(650, 100, 'cloud3.png', -50);
-        this.addCloud(700, 200, 'cloud4.png', -40);
+        /*this.addCloud(650, 100, 'cloud3.png', -50);
+        this.addCloud(700, 200, 'cloud4.png', -40);*/
 
         this.addParallax(700, 'bushes.png', -250);
         this.obstacleContainer = new game.Container();
@@ -48,9 +48,9 @@ game.createScene('Main', {
         this.scoreText.position.x = game.system.width / 2 - this.scoreText.width / 2;
         this.scoreText.addTo(this.stage);
 
-        var text = new game.Sprite('madewithpanda.png', game.system.width / 2, game.system.height - 48, {
+        /*var text = new game.Sprite('madewithpanda.png', game.system.width / 2, game.system.height - 48, {
             anchor: { x: 0.5, y: 0 }
-        }).addTo(this.stage);
+        }).addTo(this.stage);*/
 
         game.audio.musicVolume = 0.2;
         game.audio.playMusic('music');
@@ -68,11 +68,11 @@ game.createScene('Main', {
         game.audio.playSound('score');
     },
 
-    addCloud: function(x, y, path, speed) {
+    /*addCloud: function(x, y, path, speed) {
         var cloud = new game.Cloud(path, x, y, speed);
         cloud.sprite.addTo(this.stage);
         this.addObject(cloud);
-    },
+    },*/
 
     addParallax: function(y, path, speed) {
         var parallax = new game.TilingSprite(path);

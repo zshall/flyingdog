@@ -28,7 +28,7 @@ game.createClass('Player', {
             collisionGroup: 1,
         });
         this.body.collide = this.collide.bind(this);
-        this.body.addShape(new game.Rectangle(132, 36));
+		this.body.addShape(new game.Rectangle(94, 30));
         game.scene.world.addBody(this.body);
 
         this.smokeEmitter = new game.Emitter({
@@ -41,8 +41,8 @@ game.createClass('Player', {
             speed: 400,
             textures: ['particle.png']
         });
-        this.smokeEmitter.addTo(game.scene.stage);
-        game.scene.addEmitter(this.smokeEmitter);
+        //this.smokeEmitter.addTo(game.scene.stage);
+        //game.scene.addEmitter(this.smokeEmitter);
 
         this.flyEmitter = new game.Emitter({
             life: 0,
@@ -58,9 +58,9 @@ game.createClass('Player', {
                 y: this.sprite.position.y - 30
             }
         });
-        this.flyEmitter.addTo(game.scene.stage);
-        this.flyEmitter.emit(5);
-        game.scene.addEmitter(this.flyEmitter);
+        //this.flyEmitter.addTo(game.scene.stage);
+        //this.flyEmitter.emit(5);
+        //game.scene.addEmitter(this.flyEmitter);
     },
 
     collide: function() {

@@ -1,5 +1,5 @@
 pandaConfig = {
-    name: 'Flying Dog',
+    name: 'Galaxy Flap',
     version: '1.0.1',
     
     system: {
@@ -9,10 +9,10 @@ pandaConfig = {
         bgColor: '#000000'
     },
     analytics: {
-        id: 'UA-42024756-5'
+        id: 'UA-DONTTRACK'
     },
     storage: {
-        id: 'net.pandajs.flyingdog'
+        id: 'net.sosguy.galaxyflap'
     },
     iOS8: {
         system: {

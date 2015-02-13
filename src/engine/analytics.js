@@ -20,7 +20,7 @@ game.Analytics = game.Class.extend({
         Is analytics enabled.
         @property {Boolean} enabled
     **/
-    enabled: true,
+    enabled: false,
     /**
         Current tracking id.
         @property {String} trackId
@@ -36,7 +36,7 @@ game.Analytics = game.Class.extend({
 
         this.trackId = id;
 
-        if (game.device.cocoonJS && game.Analytics.cocoonJS) {
+        if (game.device.cocoonJS && game.Analytics.cocoonJS && this.enabled) {
             this.userId = Date.now();
             var request = new XMLHttpRequest();
             var params = 'v=1&tid=' + this.trackId + '&cid=' + this.userId + '&t=pageview&dp=%2F';
