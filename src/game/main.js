@@ -159,6 +159,7 @@ game.createScene('Main', {
             this.addTimer(time, function() {
                 scoreCounter++;
                 scoreText.setText(scoreCounter.toString());
+				game.audio.playSound('score');
                 if (scoreCounter >= game.scene.score) {
                     this.repeat = false;
 					var showInitials =  showNewInitials ? (', ' + initials) : '';
