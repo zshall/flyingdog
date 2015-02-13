@@ -96,15 +96,44 @@ game.createScene('Main', {
         }
         this.player.jump();
     },
+  
+    keydown: function(key) {
+		if (this.ended) {
+			if (key === '1') {
+				game.system.setScene('Main');
+			}
+            return;
+		}
+		
+        if (key === 'CTRL') {
+            if (this.player.body.mass === 0) {
+                game.analytics.send('play');
+                this.player.body.mass = 1;
+                this.logo.remove();
+                this.addTimer(this.obstacleInterval, this.addObstacle.bind(this), true);
+            }
+            this.player.jump();
+        }
+    },
 
     showScore: function() {
         var box = new game.Sprite('gameover.png', game.system.width / 2, game.system.height / 2, { anchor: { x: 0.5, y: 0.5 }});
         box.addTo(this.stage);
 
         var highScore = game.storage.get('highScore', 0);
-        if (this.score > highScore) game.storage.set('highScore', this.score);
+		var initials = game.storage.get('initials', 'AAA');
+		var oldInitials = game.storage.get('initials', 'AAA');
+		var showNewInitials = false;
+        if (this.score > highScore) {
+			showNewInitials = true;
+			initials = prompt("High score! Please enter your initials", oldInitials);
+			initials = initials.substring(0,3).toUpperCase();
+			
+			game.storage.set('highScore', this.score);
+			game.storage.set('initials', initials);
+		}
 
-        var highScoreText = new game.BitmapText(highScore.toString(), { font: 'Pixel' });
+        var highScoreText = new game.BitmapText(highScore.toString() + ', ' + oldInitials, { font: 'Pixel' });
         highScoreText.position.x = 27;
         highScoreText.position.y = 43;
         highScoreText.addTo(box);
@@ -132,6 +161,8 @@ game.createScene('Main', {
                 scoreText.setText(scoreCounter.toString());
                 if (scoreCounter >= game.scene.score) {
                     this.repeat = false;
+					var showInitials =  showNewInitials ? (', ' + initials) : '';
+					scoreText.setText(game.scene.score + showInitials);
                     if (game.scene.score > highScore) {
                         game.audio.playSound('highscore');
                         var newBox = new game.Sprite('new.png', -235, -4);
