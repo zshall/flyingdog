@@ -10,10 +10,17 @@ game.createClass('Player', {
         var x = game.system.width / 2;
         var y = 500;
 
-        this.sprite = new game.Animation(
-            'player1.png',
-            'player2.png'
-        );
+		this.flyAnim = [
+			game.Texture.fromFrame('player1.png'),
+			game.Texture.fromFrame('player2.png')
+		];
+		
+		this.hitAnim = [
+			game.Texture.fromFrame('hit1.png'),
+			game.Texture.fromFrame('hit2.png')
+		];
+		
+        this.sprite = new game.Animation(this.flyAnim);
         this.sprite.position.set(x, y);
         this.sprite.anchor.set(0.5, 0.5);
         this.sprite.animationSpeed = 0.1;
@@ -28,7 +35,7 @@ game.createClass('Player', {
             collisionGroup: 1,
         });
         this.body.collide = this.collide.bind(this);
-		this.body.addShape(new game.Rectangle(94, 30));
+		this.body.addShape(new game.Rectangle(90, 30));
         game.scene.world.addBody(this.body);
 
         this.smokeEmitter = new game.Emitter({
@@ -66,6 +73,7 @@ game.createClass('Player', {
     collide: function() {
         if (!game.scene.ended) {
             game.scene.gameOver();
+			this.sprite.textures = this.hitAnim;
             this.body.velocity.y = -200;
             this.smokeEmitter.rate = 0;
         }
@@ -94,12 +102,14 @@ game.createClass('Player', {
 game.createClass('Obstacle', {
     groundTop: 800,
     width: 132,
-    minY: 150,
+    //minY: 150,
+	minY: 250,
     maxY: 550,
     height: 232,
     speed: -300,
 
-    init: function() {
+    init: function(height) {
+		if (height) this.height = height;
         var y = Math.round(Math.random(this.minY, this.maxY));
 
         var topHeight = y - this.height / 2;
@@ -112,7 +122,8 @@ game.createClass('Obstacle', {
         this.topBody.addShape(topShape);
         game.scene.world.addBody(this.topBody);
 
-        var bottomHeight = this.groundTop - topHeight - this.height;
+        //var bottomHeight = this.groundTop - topHeight - this.height;
+		var bottomHeight = this.groundTop - topHeight - this.height;
         this.bottomBody = new game.Body({
             position: { x: game.system.width + this.width / 2, y: topHeight + this.height + bottomHeight / 2 },
             velocity: { x: this.speed },

@@ -9,17 +9,26 @@ game.module(
 
 game.createScene('Main', {
     backgroundColor: 0x000000,
-    obstacleInterval: 1500,
+    //obstacleInterval: 1500,
+	obstacleInterval: 2000,
+	minObsacleInterval: 1300,
+	obstacleDifficultyIncrease: 100,
+	obstacleDifficultyInterval: 5,
+	obstacleWidth: 500,
+	obstacleWidthInterval: 2,
+	obstacleWidthDecrease: 50,
+	minObstacleWidth: 250,
     gravity: 2000,
     score: 0,
     cloudSpeedFactor: 1,
+	difficultyTimer: null,
 
     init: function() {
         this.world = new game.World(0, this.gravity);
         
-        this.addParallax(400, 'parallax1.png', -50);
-        this.addParallax(550, 'parallax2.png', -100);
-        this.addParallax(650, 'parallax3.png', -200);
+        this.addParallax(0, 'parallax1.png', -50);
+        this.addParallax(250, 'parallax2.png', -100);
+        this.addParallax(450, 'parallax3.png', -200);
 
         /*this.addCloud(100, 100, 'cloud1.png', -50);
         this.addCloud(300, 50, 'cloud2.png', -30);*/
@@ -29,10 +38,10 @@ game.createScene('Main', {
         /*this.addCloud(650, 100, 'cloud3.png', -50);
         this.addCloud(700, 200, 'cloud4.png', -40);*/
 
-        this.addParallax(700, 'bushes.png', -250);
+        this.addParallax(550, 'bushes.png', -250);
         this.obstacleContainer = new game.Container();
         this.obstacleContainer.addTo(this.stage);
-        this.addParallax(800, 'ground.png', -300);
+        this.addParallax(700, 'ground.png', -300);
 
         this.player = new game.Player();
         
@@ -40,7 +49,7 @@ game.createScene('Main', {
             position: { x: game.system.width / 2, y: 850 },
             collisionGroup: 0
         });
-        var groundShape = new game.Rectangle(game.system.width, 100);
+        var groundShape = new game.Rectangle(game.system.width, 320);
         groundBody.addShape(groundShape);
         this.world.addBody(groundBody);
 
@@ -57,11 +66,20 @@ game.createScene('Main', {
     },
 
     addObstacle: function() {
-        this.addObject(new game.Obstacle());
+        this.addObject(new game.Obstacle(this.obstacleWidth));
     },
 
     addScore: function() {
         this.score++;
+		// increase obstacle interval each time
+		if (this.score % this.obstacleDifficultyInterval == 0 && this.obstacleInterval > this.minObsacleInterval) {
+			this.obstacleInterval -= this.obstacleDifficultyIncrease;
+			this.removeTimer(this.difficultyTimer);
+			this.difficultyTimer = this.addTimer(this.obstacleInterval, this.addObstacle.bind(this), true);
+		}
+		if (this.score % this.obstacleWidthInterval == 0 && this.obstacleWidth > this.minObstacleWidth) {
+			this.obstacleWidth -= this.obstacleWidthDecrease;
+		}
         this.scoreText.setText(this.score.toString());
         this.scoreText.updateTransform();
         this.scoreText.position.x = game.system.width / 2 - this.scoreText.width / 2;
@@ -92,7 +110,7 @@ game.createScene('Main', {
             game.analytics.send('play');
             this.player.body.mass = 1;
             this.logo.remove();
-            this.addTimer(this.obstacleInterval, this.addObstacle.bind(this), true);
+            this.difficultyTimer = this.addTimer(this.obstacleInterval, this.addObstacle.bind(this), true);
         }
         this.player.jump();
     },
@@ -110,7 +128,7 @@ game.createScene('Main', {
                 game.analytics.send('play');
                 this.player.body.mass = 1;
                 this.logo.remove();
-                this.addTimer(this.obstacleInterval, this.addObstacle.bind(this), true);
+                this.difficultyTimer = this.addTimer(this.obstacleInterval, this.addObstacle.bind(this), true);
             }
             this.player.jump();
         }
