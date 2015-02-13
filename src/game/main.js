@@ -75,7 +75,7 @@ game.createScene('Main', {
     },*/
 
     addParallax: function(y, path, speed) {
-        var parallax = new game.TilingSprite(path);
+        var parallax = new game.TilingSprite(path, pandaConfig.system.width, pandaConfig.system.height);
         parallax.position.y = y;
         parallax.speed.x = speed;
         parallax.addTo(this.stage);

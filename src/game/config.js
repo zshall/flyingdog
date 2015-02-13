@@ -3,8 +3,8 @@ pandaConfig = {
     version: '1.0.1',
     
     system: {
-        width: 768,
-        height: 1024,
+        width: 1360,
+        height: 768,
         rotateScreen: false,
         bgColor: '#000000'
     },
